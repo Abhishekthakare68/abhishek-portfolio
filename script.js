@@ -8,15 +8,15 @@ const revealOnScroll = new IntersectionObserver((entries, observer) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       entry.target.classList.add("visible");
-      observer.unobserve(entry.target); // Stop observing once revealed
+      observer.unobserve(entry.target);
     }
   });
 }, revealOptions);
 
-// === Wait for DOM to Load ===
+// === DOM Ready ===
 document.addEventListener("DOMContentLoaded", () => {
 
-  // === Animate Elements on Scroll ===
+  // === Animate on Scroll ===
   const fadeElements = document.querySelectorAll('.fade-up, .fade-in, .fade-section');
   fadeElements.forEach(el => revealOnScroll.observe(el));
 
@@ -33,13 +33,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // === ScrollSpy / Active Nav Link Highlighting ===
+  // === ScrollSpy (Active Link Highlight) ===
   const sections = document.querySelectorAll("section[id]");
   const navLinks = document.querySelectorAll("nav a[href^='#']");
 
   const highlightCurrentSection = () => {
     const scrollY = window.pageYOffset;
-
     sections.forEach(section => {
       const sectionTop = section.offsetTop - 100;
       const sectionHeight = section.offsetHeight;
@@ -57,4 +56,14 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   window.addEventListener("scroll", highlightCurrentSection);
+
+  // === Mobile Menu Toggle ===
+  const hamburger = document.getElementById("hamburger");
+  const navLinksContainer = document.getElementById("nav-links");
+
+  if (hamburger && navLinksContainer) {
+    hamburger.addEventListener("click", () => {
+      navLinksContainer.classList.toggle("show");
+    });
+  }
 });

@@ -3,35 +3,51 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Abhishek Thakare | Full Stack Developer and ML Engineer Portfolio" />
+  <meta name="author" content="Abhishek Thakare">
+  <meta name="robots" content="index, follow">
   <title>Abhishek Thakare | Portfolio</title>
-  <link rel="stylesheet" href="style.css" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="images/favicon.png" type="image/png" />
+
+  <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
+<!-- === Navigation === -->
 <nav>
-  <ul>
-    <li><a href="#home" class="nav-link">Home</a></li>
-    <li><a href="#about" class="nav-link">About</a></li>
-    <li><a href="#skills" class="nav-link">Skills</a></li>
-    <li><a href="#projects" class="nav-link">Projects</a></li>
-    <li><a href="#experience" class="nav-link">Experience</a></li>
-    <li><a href="#education" class="nav-link">Education</a></li>
-    <li><a href="#contact" class="nav-link">Contact</a></li>
-  </ul>
+  <div class="container nav-container">
+    <div class="logo"><a href="#home">Abhishek</a></div>
+    <div class="hamburger" id="hamburger">&#9776;</div>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#home" class="nav-link">Home</a></li>
+      <li><a href="#about" class="nav-link">About</a></li>
+      <li><a href="#skills" class="nav-link">Skills</a></li>
+      <li><a href="#projects" class="nav-link">Projects</a></li>
+      <li><a href="#experience" class="nav-link">Experience</a></li>
+      <li><a href="#education" class="nav-link">Education</a></li>
+      <li><a href="#contact" class="nav-link">Contact</a></li>
+    </ul>
+  </div>
 </nav>
 
 <!-- === Hero Section === -->
 <header id="home" class="hero-section fade-in">
   <div class="hero container">
-    <img src="images/profile-pic.png" alt="Abhishek Thakare" class="profile-img" />
+    <img src="images/profile-pic.png" alt="Abhishek Thakare Profile Picture" class="profile-img" />
     <h1>Hi, I'm <span class="highlight">Abhishek Thakare</span></h1>
     <p class="subheading">Full Stack Developer | Machine Learning Engineer | Tech Explorer</p>
     <div class="social-links">
-      <a href="https://github.com/Abhishekthakare68" target="_blank"><i class="fab fa-github"></i></a>
-      <a href="https://linkedin.com/in/abhishekthakare68" target="_blank"><i class="fab fa-linkedin"></i></a>
-      <a href="mailto:abhishekthakare221@gmail.com"><i class="fas fa-envelope"></i></a>
+      <a href="https://github.com/Abhishekthakare68" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+      <a href="https://linkedin.com/in/abhishekthakare68" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+      <a href="mailto:abhishekthakare221@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
     </div>
   </div>
 </header>
@@ -41,8 +57,8 @@
   <h2>About Me</h2>
   <p>
     I'm a B.Tech graduate in Electronics & Telecommunication Engineering from VIIT Pune (2025) with hands-on experience as an AI/ML Intern at Tata Motors.
-    Proficient in Python, ML, Flask, SQL, and cloud tools, I’ve built production-grade dashboards and interfaces during my internship.
-    I'm actively seeking full-time roles as a Machine Learning Engineer, Software Developer, or Full Stack Developer.
+    I specialize in building intelligent systems using Python, Flask, and Machine Learning frameworks. I’ve delivered dashboards, tools, and production interfaces with real-world impact.
+    I'm currently open to full-time roles as a Machine Learning Engineer, Software Developer, or Full Stack Developer.
   </p>
 </section>
 
@@ -67,15 +83,15 @@
   <div class="projects-grid">
     <div class="project-card">
       <h3>🧠 Brain Tumour Detection using CNN</h3>
-      <p>Developed a deep learning model using Python, Keras & OpenCV to detect brain tumours from MRI scans. GUI-based real-time prediction interface.</p>
+      <p>Built a CNN-based classifier using Python, Keras & OpenCV to detect brain tumours from MRI images. Includes GUI for real-time predictions.</p>
     </div>
     <div class="project-card">
       <h3>🔧 Image Deblurring with Autoencoder</h3>
-      <p>Created a DL-based image deblurring tool using TensorFlow. Applied deconvolution & denoising for 30% clarity improvement.</p>
+      <p>Designed a deep learning tool to restore blurred images using autoencoders in TensorFlow. Improved visual clarity by 30%.</p>
     </div>
     <div class="project-card">
-      <h3>🏨 Hotel Management System (Full Stack)</h3>
-      <p>Built with HTML, CSS, Flask, SQLite. Allows hotel staff to manage rooms, bookings, and billing through a secure dashboard.</p>
+      <h3>🏨 Hotel Management System</h3>
+      <p>Full Stack app built using Flask, SQLite, HTML/CSS. Manages room booking, billing, and staff dashboard securely.</p>
     </div>
   </div>
 </section>
@@ -87,10 +103,10 @@
     <h3>AI/ML Intern – Tata Motors, Pune</h3>
     <p><em>Dec 2024 – June 2025</em></p>
     <ul>
-      <li>Developed AI systems to automate supervisor task allocation, improving shop floor efficiency.</li>
-      <li>Built VC Tracker to monitor real-time vehicle component status.</li>
-      <li>Created MASOP dashboard for Tata Winger body process monitoring.</li>
-      <li>Worked with HTML, CSS, JavaScript to build production interfaces.</li>
+      <li>Automated supervisor task allocation on the shop floor using ML.</li>
+      <li>Developed VC Tracker for real-time monitoring of component statuses.</li>
+      <li>Built MASOP dashboards for Tata Winger process visualization.</li>
+      <li>Used HTML, CSS, and JavaScript to deploy dashboards internally.</li>
     </ul>
   </div>
 </section>
@@ -100,7 +116,7 @@
   <h2>Education</h2>
   <div class="education-entry">
     <h3>B.Tech - Electronics & Telecommunication</h3>
-    <p>Vishwakarma Institute of Information Technology, Pune (2021–2025)</p>
+    <p>VIIT Pune (2021–2025)</p>
     <p><strong>CGPA:</strong> 8.05</p>
   </div>
   <div class="education-entry">
@@ -119,20 +135,18 @@
 <section id="certifications" class="fade-up bg-light">
   <h2>Certifications</h2>
   <ul>
-    <li><a href="https://www.coursera.org/account/accomplishments/specialization/DX9DK5PZGQHG" target="_blank">IBM Full Stack Software Developer – Coursera</a></li>
+    <li><a href="https://www.coursera.org/account/accomplishments/specialization/DX9DK5PZGQHG" target="_blank">IBM Full Stack Developer – Coursera</a></li>
     <li><a href="https://www.coursera.org/account/accomplishments/specialization/UD01GSBKQ8HS" target="_blank">IBM DevOps & Software Engineering – Coursera</a></li>
-    <li><a href="https://www.linkedin.com/learning/certificates/d05cb4d0fd7aacb2ed7f4e8d78e22a24dd0fcbe6313f5ee64b3433858da6f0ae?trk=share_certificate" target="_blank">Python for Non-Programmers – LinkedIn Learning</a></li>
-    <li><a href="https://www.linkedin.com/learning/certificates/d8ea89f4c6194b3b8ac17c2a801fb9cc70e32465cbe86246fe20e1381abdd71b?u=126888530" target="_blank">C++ Programming – LinkedIn Learning</a></li>
-    <li><a href="https://drive.google.com/file/d/1-4ubsfSUz1j0FgeSFUQvLIewoWte1s9o/view?pli=1" target="_blank">Data Structures and Algorithms – Infosys Springboard</a></li>
+    <li><a href="https://www.linkedin.com/learning/certificates/d05cb4d0fd7aacb2ed7f4e8d78e22a24dd0fcbe6313f5ee64b3433858da6f0ae" target="_blank">Python for Non-Programmers – LinkedIn Learning</a></li>
+    <li><a href="https://www.linkedin.com/learning/certificates/d8ea89f4c6194b3b8ac17c2a801fb9cc70e32465cbe86246fe20e1381abdd71b" target="_blank">C++ Programming – LinkedIn Learning</a></li>
+    <li><a href="https://drive.google.com/file/d/1-4ubsfSUz1j0FgeSFUQvLIewoWte1s9o/view" target="_blank">DSA – Infosys Springboard</a></li>
   </ul>
 </section>
 
 <!-- === Resume Section === -->
 <section id="resume" class="fade-up">
   <h2>Resume</h2>
-  <p>
-    <a href="files/Abhishek_Thakare_CV.pdf" download class="btn">📄 Download My Resume (PDF)</a>
-  </p>
+  <p><a href="files/Abhishek_Thakare_CV.pdf" download class="btn">📄 Download My Resume (PDF)</a></p>
 </section>
 
 <!-- === Contact Section === -->
@@ -149,6 +163,7 @@
   <p>© 2025 Abhishek Thakare. Built with 💻, ☕, and ❤️</p>
 </footer>
 
+<!-- === Scripts === -->
 <script src="script.js"></script>
 </body>
 </html>
