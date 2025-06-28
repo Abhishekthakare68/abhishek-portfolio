@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
       formStatus.style.color = "#444";
 
       try {
-const response = await fetch("https://script.google.com/macros/s/AKfycbxvJIZMBZ31p16jxyZ8QSUq24QbhXMlB18A124ltGye-yu5P0ssYDGeXHn-pxQrag_Mug/exec", {
+const response = await fetch("https://script.google.com/macros/s/AKfycbwSL_fpYjJkiEmAGHJZqeJdckxVqR8S1V20uExdb-KnQn2jekEbByfVvxJ6IcYFKQ/exec", {
   method: "POST",
   headers: {
     "Content-Type": "application/json"
