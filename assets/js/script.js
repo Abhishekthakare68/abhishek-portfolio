@@ -16,6 +16,42 @@ const revealOnScroll = new IntersectionObserver((entries, observer) => {
 // === DOM Ready ===
 document.addEventListener("DOMContentLoaded", () => {
 
+    // === Contact Form Submission ===
+  const contactForm = document.getElementById("contact-form");
+  const formStatus = document.getElementById("form-status");
+
+  if (contactForm) {
+    contactForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      formStatus.textContent = "Sending...";
+
+      const formData = {
+        name: contactForm.name.value.trim(),
+        email: contactForm.email.value.trim(),
+        message: contactForm.message.value.trim(),
+      };
+
+      try {
+        const response = await fetch("https://script.google.com/macros/s/AKfycbxvJIZMBZ31p16jxyZ8QSUq24QbhXMlB18A124ltGye-yu5P0ssYDGeXHn-pxQrag_Mug/exec", {
+          method: "POST",
+          body: JSON.stringify(formData),
+          headers: { "Content-Type": "application/json" },
+        });
+
+        if (response.ok) {
+          formStatus.textContent = "Message sent successfully!";
+          contactForm.reset();
+        } else {
+          formStatus.textContent = "Failed to send. Please try again.";
+        }
+      } catch (err) {
+        formStatus.textContent = "Something went wrong!";
+        console.error("Form submission error:", err);
+      }
+    });
+  }
+});
+
   // === Animate on Scroll ===
   const fadeElements = document.querySelectorAll('.fade-up, .fade-in, .fade-section');
   fadeElements.forEach(el => revealOnScroll.observe(el));
@@ -65,5 +101,4 @@ document.addEventListener("DOMContentLoaded", () => {
     hamburger.addEventListener("click", () => {
       navLinksContainer.classList.toggle("show");
     });
-  }
-});
+  };
