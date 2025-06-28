@@ -19,10 +19,18 @@
 
 body {
   font-family: var(--font-main);
-  background: var(--light-bg);
-  color: var(--text-color);
   line-height: 1.7;
   scroll-behavior: smooth;
+}
+
+html {
+  background: var(--light-bg);
+  color: var(--text-color);
+}
+
+html.dark {
+  background: #121212;
+  color: #eaeaea;
 }
 
 img {
@@ -322,6 +330,9 @@ footer {
 #back-to-top:hover {
   background: var(--primary-dark);
 }
+#back-to-top.show {
+  display: block;
+}
 
 /* ===== Dark Mode ===== */
 body.dark {
@@ -329,25 +340,25 @@ body.dark {
   color: #eaeaea;
 }
 
-body.dark section {
+html.dark section {
   background: #1f1f1f;
   color: #eee;
 }
 
-body.dark .btn {
+html.dark .btn {
   background: var(--highlight-color);
   color: black;
 }
 
-body.dark .btn:hover {
+html.dark .btn:hover {
   background: #ffd700;
 }
 
-body.dark a {
+html.dark a {
   color: #7abaff;
 }
 
-body.dark a:hover {
+html.dark a:hover {
   color: #a3d5ff;
 }
 
