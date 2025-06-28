@@ -109,9 +109,9 @@ document.addEventListener("DOMContentLoaded", () => {
 const response = await fetch("https://script.google.com/macros/s/AKfycbxvJIZMBZ31p16jxyZ8QSUq24QbhXMlB18A124ltGye-yu5P0ssYDGeXHn-pxQrag_Mug/exec", {
   method: "POST",
   headers: {
-    "Content-Type": "application/x-www-form-urlencoded"
+    "Content-Type": "application/json"
   },
-  body: new URLSearchParams({ name, email, message })
+  body: JSON.stringify({ name, email, message })
 });
 
 
