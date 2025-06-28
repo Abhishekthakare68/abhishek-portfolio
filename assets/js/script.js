@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // === Contact Form Submission ===
+  // === Contact Form Submission (GET method to avoid CORS) ===
   const contactForm = document.getElementById("contact-form");
   const formStatus = document.getElementById("form-status");
 
@@ -106,15 +106,15 @@ document.addEventListener("DOMContentLoaded", () => {
       formStatus.style.color = "#444";
 
       try {
-        const formBody = new URLSearchParams({ name, email, message });
+        const formParams = new URLSearchParams({ name, email, message });
+        const response = await fetch(
+          "https://script.google.com/macros/s/AKfycbxvJIZMBZ31p16jxyZ8QSUq24QbhXMlB18A124ltGye-yu5P0ssYDGeXHn-pxQrag_Mug/exec?" + formParams.toString(),
+          { method: "GET" } // Using GET instead of POST to bypass CORS
+        );
 
-        const response = await fetch("https://script.google.com/macros/s/AKfycbxvJIZMBZ31p16jxyZ8QSUq24QbhXMlB18A124ltGye-yu5P0ssYDGeXHn-pxQrag_Mug/exec", {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: formBody.toString()
-        });
+        const result = await response.json();
 
-        if (response.ok) {
+        if (result.result === "success") {
           formStatus.textContent = "Message sent successfully!";
           formStatus.style.color = "green";
           contactForm.reset();
