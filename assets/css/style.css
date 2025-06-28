@@ -46,20 +46,20 @@ h1, h2, h3 {
   line-height: 1.3;
 }
 
-section {
-  padding: 60px 20px;
-  max-width: 1100px;
-  margin: auto;
-  background: var(--section-bg);
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
-  margin-top: 40px;
-  transition: all 0.3s ease-in-out;
-}
-
 p {
   margin-bottom: 15px;
   font-size: 1.05rem;
+}
+
+/* ===== Section Layout ===== */
+section {
+  padding: 60px 20px;
+  max-width: 1100px;
+  margin: 40px auto;
+  background: var(--section-bg);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease-in-out;
 }
 
 /* ===== Navigation Bar ===== */
@@ -106,10 +106,14 @@ p {
   border-bottom: 2px solid var(--primary-color);
 }
 
-.hamburger {
+/* ===== Hamburger Menu ===== */
+#hamburger {
   display: none;
   font-size: 1.5rem;
   cursor: pointer;
+  background: none;
+  border: none;
+  color: var(--text-color);
 }
 
 /* ===== Hero Section ===== */
@@ -144,6 +148,11 @@ p {
   margin-bottom: 20px;
 }
 
+.static-titles {
+  display: none;
+}
+
+/* ===== Social Icons ===== */
 .social-icons {
   display: flex;
   justify-content: center;
@@ -163,7 +172,7 @@ p {
   filter: brightness(1.2);
 }
 
-/* ===== Grid & Section Styles ===== */
+/* ===== Grid Layouts ===== */
 .skill-grid,
 .projects-grid {
   display: grid;
@@ -204,21 +213,14 @@ p {
 /* ===== Experience, Education, Certifications ===== */
 .experience-entry ul {
   margin-left: 20px;
-  margin-bottom: 10px;
 }
 
 .experience-entry li {
   margin-bottom: 10px;
-  line-height: 1.6;
 }
 
 .education-entry {
   margin-bottom: 30px;
-}
-
-.education-entry h3 {
-  font-weight: 600;
-  margin-bottom: 5px;
 }
 
 .certifications ul {
@@ -241,6 +243,7 @@ p {
   font-weight: 600;
   border-radius: 8px;
   transition: background 0.3s;
+  text-align: center;
 }
 
 .btn:hover {
@@ -281,7 +284,7 @@ footer {
   border-top: 1px solid #ccc;
 }
 
-/* ===== Scroll Animations ===== */
+/* ===== Scroll Reveal Animation ===== */
 .fade-up {
   opacity: 0;
   transform: translateY(40px);
@@ -299,7 +302,66 @@ footer {
   transform: none;
 }
 
-/* ===== Responsive Media Queries ===== */
+/* ===== Back to Top Button ===== */
+#back-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  padding: 10px 14px;
+  font-size: 1.2rem;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: none;
+  z-index: 999;
+  transition: background 0.3s;
+}
+
+#back-to-top:hover {
+  background: var(--primary-dark);
+}
+
+/* ===== Dark Mode ===== */
+body.dark {
+  background: #121212;
+  color: #eaeaea;
+}
+
+body.dark section {
+  background: #1f1f1f;
+  color: #eee;
+}
+
+body.dark .btn {
+  background: var(--highlight-color);
+  color: black;
+}
+
+body.dark .btn:hover {
+  background: #ffd700;
+}
+
+body.dark a {
+  color: #7abaff;
+}
+
+body.dark a:hover {
+  color: #a3d5ff;
+}
+
+/* ===== Typewriter ===== */
+#typewriter {
+  font-family: monospace;
+  border-right: 2px solid;
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  padding-right: 5px;
+}
+
+/* ===== Responsive Design ===== */
 @media (max-width: 992px) {
   .skill-grid,
   .projects-grid {
@@ -308,24 +370,30 @@ footer {
 }
 
 @media (max-width: 768px) {
-  .profile-img {
-    width: 100px;
-    height: 100px;
+  .nav-container {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .nav-links {
     display: none;
     flex-direction: column;
     gap: 10px;
-    padding-top: 10px;
+    width: 100%;
+    margin-top: 10px;
   }
 
   .nav-links.show {
     display: flex;
   }
 
-  .hamburger {
+  #hamburger {
     display: block;
+  }
+
+  .profile-img {
+    width: 100px;
+    height: 100px;
   }
 
   .social-icons a img {
@@ -347,22 +415,7 @@ footer {
     font-size: 1rem;
   }
 }
+
 .bg-light {
   background-color: var(--light-bg);
-}
-#hamburger {
-  display: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-
-@media (max-width: 768px) {
-  #hamburger {
-    display: block;
-  }
-
-  .nav-container {
-    flex-direction: column;
-    align-items: flex-start;
-  }
 }
