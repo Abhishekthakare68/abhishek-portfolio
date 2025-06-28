@@ -106,11 +106,14 @@ document.addEventListener("DOMContentLoaded", () => {
       formStatus.style.color = "#444";
 
       try {
-        const formParams = new URLSearchParams({ name, email, message });
-        const response = await fetch(
-          "https://script.google.com/macros/s/AKfycbxvJIZMBZ31p16jxyZ8QSUq24QbhXMlB18A124ltGye-yu5P0ssYDGeXHn-pxQrag_Mug/exec?" + formParams.toString(),
-          { method: "GET" } // Using GET instead of POST to bypass CORS
-        );
+const response = await fetch("https://script.google.com/macros/s/AKfycbxvJIZMBZ31p16jxyZ8QSUq24QbhXMlB18A124ltGye-yu5P0ssYDGeXHn-pxQrag_Mug/exec", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/x-www-form-urlencoded"
+  },
+  body: new URLSearchParams({ name, email, message })
+});
+
 
         const result = await response.json();
 
