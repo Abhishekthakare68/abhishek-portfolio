@@ -13,6 +13,18 @@ const revealOnScroll = new IntersectionObserver((entries, observer) => {
   });
 }, revealOptions);
 
+// === Throttle Scroll Events ===
+function throttle(fn, delay) {
+  let lastCall = 0;
+  return function (...args) {
+    const now = new Date().getTime();
+    if (now - lastCall >= delay) {
+      lastCall = now;
+      fn.apply(this, args);
+    }
+  };
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   // === Animate on Scroll ===
   const fadeElements = document.querySelectorAll('.fade-up, .fade-in');
@@ -34,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // === ScrollSpy ===
   const sections = document.querySelectorAll("section[id]");
   const navLinks = document.querySelectorAll("nav a[href^='#']");
-  window.addEventListener("scroll", () => {
+  window.addEventListener("scroll", throttle(() => {
     const scrollY = window.pageYOffset;
     sections.forEach(section => {
       const sectionTop = section.offsetTop - 100;
@@ -49,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
     });
-  });
+  }, 100));
 
   // === Mobile Menu Toggle ===
   const hamburger = document.getElementById("hamburger");
@@ -81,7 +93,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const email = contactForm.email.value.trim();
       const message = contactForm.message.value.trim();
 
-      // Validate Email
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailPattern.test(email)) {
         formStatus.textContent = "Please enter a valid email address.";
@@ -94,15 +105,13 @@ document.addEventListener("DOMContentLoaded", () => {
       formStatus.textContent = "Sending...";
       formStatus.style.color = "#444";
 
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("email", email);
-      formData.append("message", message);
-
       try {
+        const formBody = new URLSearchParams({ name, email, message });
+
         const response = await fetch("https://script.google.com/macros/s/AKfycbxvJIZMBZ31p16jxyZ8QSUq24QbhXMlB18A124ltGye-yu5P0ssYDGeXHn-pxQrag_Mug/exec", {
           method: "POST",
-          body: formData
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: formBody.toString()
         });
 
         if (response.ok) {
@@ -119,24 +128,24 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Form error:", err);
       }
 
-      submitButton.disabled = false;
+      setTimeout(() => {
+        submitButton.disabled = false;
+      }, 1000);
     });
   }
 
   // === Dark Mode Toggle ===
-const themeToggle = document.getElementById("theme-toggle");
-if (themeToggle) {
-  themeToggle.addEventListener("click", () => {
-    document.documentElement.classList.toggle("dark");
-    localStorage.setItem("theme", document.documentElement.classList.contains("dark") ? "dark" : "light");
-  });
+  const themeToggle = document.getElementById("theme-toggle");
+  if (themeToggle) {
+    themeToggle.addEventListener("click", () => {
+      document.documentElement.classList.toggle("dark");
+      localStorage.setItem("theme", document.documentElement.classList.contains("dark") ? "dark" : "light");
+    });
 
-  // Persist theme
-  if (localStorage.getItem("theme") === "dark") {
-    document.documentElement.classList.add("dark");
+    if (localStorage.getItem("theme") === "dark") {
+      document.documentElement.classList.add("dark");
+    }
   }
-}
-
 
   // === Typewriter Effect ===
   const typewriterPhrases = [
@@ -174,13 +183,13 @@ if (themeToggle) {
 
   // === Back to Top ===
   const backToTopBtn = document.getElementById("back-to-top");
-window.addEventListener("scroll", () => {
-  if (window.scrollY > 300) {
-    backToTopBtn.classList.add("show");
-  } else {
-    backToTopBtn.classList.remove("show");
-  }
-});
+  window.addEventListener("scroll", throttle(() => {
+    if (window.scrollY > 300) {
+      backToTopBtn.classList.add("show");
+    } else {
+      backToTopBtn.classList.remove("show");
+    }
+  }, 100));
 
   backToTopBtn?.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
