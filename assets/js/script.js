@@ -81,63 +81,84 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // === Contact Form Submission (GET method to avoid CORS) ===
-  const contactForm = document.getElementById("contact-form");
-  const formStatus = document.getElementById("form-status");
+// === Contact Form Submission ===
+const contactForm = document.getElementById("contact-form");
+const formStatus = document.getElementById("form-status");
 
-  if (contactForm) {
-    contactForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
+if (contactForm) {
+  contactForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-      const name = contactForm.name.value.trim();
-      const email = contactForm.email.value.trim();
-      const message = contactForm.message.value.trim();
+    const name = contactForm.name.value.trim();
+    const email = contactForm.email.value.trim();
+    const message = contactForm.message.value.trim();
 
-      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailPattern.test(email)) {
-        formStatus.textContent = "Please enter a valid email address.";
-        formStatus.style.color = "red";
-        return;
-      }
+    // Validate email
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      formStatus.textContent = "Please enter a valid email address.";
+      formStatus.style.color = "red";
+      return;
+    }
 
-      const submitButton = contactForm.querySelector("button");
-      submitButton.disabled = true;
-      formStatus.textContent = "Sending...";
-      formStatus.style.color = "#444";
+    const submitButton = contactForm.querySelector("button");
+    submitButton.disabled = true;
+    formStatus.textContent = "Sending...";
+    formStatus.style.color = "#444";
 
-      try {
-const response = await fetch("https://script.google.com/macros/s/AKfycbwSL_fpYjJkiEmAGHJZqeJdckxVqR8S1V20uExdb-KnQn2jekEbByfVvxJ6IcYFKQ/exec", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({ name, email, message })
-});
+    // Create a hidden form and submit it
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("message", message);
 
+    // Create a hidden iframe to handle the submission
+    const iframe = document.createElement("iframe");
+    iframe.name = "hidden-iframe";
+    iframe.style.display = "none";
+    document.body.appendChild(iframe);
 
+    // Create a form and point it to your Google Apps Script
+    const hiddenForm = document.createElement("form");
+    hiddenForm.action = "https://script.google.com/macros/s/AKfycbyOArDBMKWTbUwPzzuEeFUBuqmvIel_7AkgZkuFNclsQWqr1BSzARnzwIt78yFAYFvi7Q/exec";
+    hiddenForm.method = "POST";
+    hiddenForm.target = "hidden-iframe";
+    
+    // Add form data
+    const nameInput = document.createElement("input");
+    nameInput.type = "hidden";
+    nameInput.name = "name";
+    nameInput.value = name;
+    hiddenForm.appendChild(nameInput);
+    
+    const emailInput = document.createElement("input");
+    emailInput.type = "hidden";
+    emailInput.name = "email";
+    emailInput.value = email;
+    hiddenForm.appendChild(emailInput);
+    
+    const messageInput = document.createElement("input");
+    messageInput.type = "hidden";
+    messageInput.name = "message";
+    messageInput.value = message;
+    hiddenForm.appendChild(messageInput);
 
+    document.body.appendChild(hiddenForm);
+    hiddenForm.submit();
 
-        const result = await response.json();
-
-        if (result.result === "success") {
-          formStatus.textContent = "Message sent successfully!";
-          formStatus.style.color = "green";
-          contactForm.reset();
-        } else {
-          formStatus.textContent = "Failed to send. Please try again.";
-          formStatus.style.color = "red";
-        }
-      } catch (err) {
-        formStatus.textContent = "Something went wrong!";
-        formStatus.style.color = "red";
-        console.error("Form error:", err);
-      }
-
-      setTimeout(() => {
-        submitButton.disabled = false;
-      }, 1000);
-    });
-  }
+    // Clean up and show success message
+    setTimeout(() => {
+      formStatus.textContent = "Message sent successfully!";
+      formStatus.style.color = "green";
+      contactForm.reset();
+      submitButton.disabled = false;
+      
+      // Remove the iframe and form after submission
+      document.body.removeChild(iframe);
+      document.body.removeChild(hiddenForm);
+    }, 2000);
+  });
+}
 
   // === Dark Mode Toggle ===
   const themeToggle = document.getElementById("theme-toggle");
