@@ -13,11 +13,11 @@ const revealOnScroll = new IntersectionObserver((entries, observer) => {
   });
 }, revealOptions);
 
-// === Throttle Scroll Events ===
+// === Throttle Utility ===
 function throttle(fn, delay) {
   let lastCall = 0;
   return function (...args) {
-    const now = new Date().getTime();
+    const now = Date.now();
     if (now - lastCall >= delay) {
       lastCall = now;
       fn.apply(this, args);
@@ -26,14 +26,14 @@ function throttle(fn, delay) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+
   // === Animate on Scroll ===
-  const fadeElements = document.querySelectorAll('.fade-up, .fade-in');
-  fadeElements.forEach(el => revealOnScroll.observe(el));
+  document.querySelectorAll('.fade-up, .fade-in')
+    .forEach(el => revealOnScroll.observe(el));
 
   // === Smooth Scroll for Anchor Links ===
-  const scrollLinks = document.querySelectorAll('a[href^="#"]');
-  scrollLinks.forEach(link => {
-    link.addEventListener('click', function (e) {
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener("click", function (e) {
       const targetId = this.getAttribute("href").substring(1);
       const target = document.getElementById(targetId);
       if (target) {
@@ -49,13 +49,13 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("scroll", throttle(() => {
     const scrollY = window.pageYOffset;
     sections.forEach(section => {
-      const sectionTop = section.offsetTop - 100;
-      const sectionHeight = section.offsetHeight;
-      const sectionId = section.getAttribute("id");
-      if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+      const top = section.offsetTop - 100;
+      const height = section.offsetHeight;
+      const id = section.getAttribute("id");
+      if (scrollY >= top && scrollY < top + height) {
         navLinks.forEach(link => {
           link.classList.remove("active");
-          if (link.getAttribute("href").includes(sectionId)) {
+          if (link.getAttribute("href").includes(id)) {
             link.classList.add("active");
           }
         });
@@ -66,158 +66,107 @@ document.addEventListener("DOMContentLoaded", () => {
   // === Mobile Menu Toggle ===
   const hamburger = document.getElementById("hamburger");
   const navLinksContainer = document.querySelector(".nav-links");
+
   if (hamburger && navLinksContainer) {
     hamburger.addEventListener("click", () => {
       navLinksContainer.classList.toggle("show");
     });
+
+    // Auto-close on nav link click (mobile)
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+          navLinksContainer.classList.remove("show");
+        }
+      });
+    });
   }
 
-  // Auto-close on nav link click
-  document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-      if (window.innerWidth <= 768) {
-        navLinksContainer.classList.remove("show");
+  // === Contact Form Submission ===
+  const contactForm = document.getElementById("contact-form");
+  const formStatus = document.getElementById("form-status");
+
+  if (contactForm) {
+    contactForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const name = contactForm.name.value.trim();
+      const email = contactForm.email.value.trim();
+      const message = contactForm.message.value.trim();
+
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(email)) {
+        formStatus.textContent = "Please enter a valid email address.";
+        formStatus.style.color = "red";
+        return;
       }
+
+      const submitButton = contactForm.querySelector("button");
+      submitButton.disabled = true;
+      formStatus.textContent = "Sending...";
+      formStatus.style.color = "#444";
+
+      const iframe = document.createElement("iframe");
+      iframe.name = "hidden-iframe";
+      iframe.style.display = "none";
+      document.body.appendChild(iframe);
+
+      const hiddenForm = document.createElement("form");
+      hiddenForm.action = "https://script.google.com/macros/s/AKfycbyOArDBMKWTbUwPzzuEeFUBuqmvIel_7AkgZkuFNclsQWqr1BSzARnzwIt78yFAYFvi7Q/exec";
+      hiddenForm.method = "POST";
+      hiddenForm.target = "hidden-iframe";
+
+      ["name", "email", "message"].forEach(field => {
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = field;
+        input.value = contactForm[field].value.trim();
+        hiddenForm.appendChild(input);
+      });
+
+      document.body.appendChild(hiddenForm);
+      hiddenForm.submit();
+
+      setTimeout(() => {
+        formStatus.textContent = "Message sent successfully!";
+        formStatus.style.color = "green";
+        contactForm.reset();
+        submitButton.disabled = false;
+
+        document.body.removeChild(iframe);
+        document.body.removeChild(hiddenForm);
+      }, 2000);
     });
-  });
-
-// === Contact Form Submission ===
-const contactForm = document.getElementById("contact-form");
-const formStatus = document.getElementById("form-status");
-
-if (contactForm) {
-  contactForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const name = contactForm.name.value.trim();
-    const email = contactForm.email.value.trim();
-    const message = contactForm.message.value.trim();
-
-    // Validate email
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email)) {
-      formStatus.textContent = "Please enter a valid email address.";
-      formStatus.style.color = "red";
-      return;
-    }
-
-    const submitButton = contactForm.querySelector("button");
-    submitButton.disabled = true;
-    formStatus.textContent = "Sending...";
-    formStatus.style.color = "#444";
-
-    // Create a hidden form and submit it
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("email", email);
-    formData.append("message", message);
-
-    // Create a hidden iframe to handle the submission
-    const iframe = document.createElement("iframe");
-    iframe.name = "hidden-iframe";
-    iframe.style.display = "none";
-    document.body.appendChild(iframe);
-
-    // Create a form and point it to your Google Apps Script
-    const hiddenForm = document.createElement("form");
-    hiddenForm.action = "https://script.google.com/macros/s/AKfycbyOArDBMKWTbUwPzzuEeFUBuqmvIel_7AkgZkuFNclsQWqr1BSzARnzwIt78yFAYFvi7Q/exec";
-    hiddenForm.method = "POST";
-    hiddenForm.target = "hidden-iframe";
-    
-    // Add form data
-    const nameInput = document.createElement("input");
-    nameInput.type = "hidden";
-    nameInput.name = "name";
-    nameInput.value = name;
-    hiddenForm.appendChild(nameInput);
-    
-    const emailInput = document.createElement("input");
-    emailInput.type = "hidden";
-    emailInput.name = "email";
-    emailInput.value = email;
-    hiddenForm.appendChild(emailInput);
-    
-    const messageInput = document.createElement("input");
-    messageInput.type = "hidden";
-    messageInput.name = "message";
-    messageInput.value = message;
-    hiddenForm.appendChild(messageInput);
-
-    document.body.appendChild(hiddenForm);
-    hiddenForm.submit();
-
-    // Clean up and show success message
-    setTimeout(() => {
-      formStatus.textContent = "Message sent successfully!";
-      formStatus.style.color = "green";
-      contactForm.reset();
-      submitButton.disabled = false;
-      
-      // Remove the iframe and form after submission
-      document.body.removeChild(iframe);
-      document.body.removeChild(hiddenForm);
-    }, 2000);
-  });
-}
-
-  // === Dark Mode Toggle ===
-  const themeToggle = document.getElementById("theme-toggle");
-  if (themeToggle) {
-    themeToggle.addEventListener("click", () => {
-      document.documentElement.classList.toggle("dark");
-      localStorage.setItem("theme", document.documentElement.classList.contains("dark") ? "dark" : "light");
-    });
-
-    if (localStorage.getItem("theme") === "dark") {
-      document.documentElement.classList.add("dark");
-    }
   }
 
   // === Typewriter Effect ===
-  const typewriterPhrases = [
-    "Full Stack Developer",
-    "ML Engineer",
-    "Tech Enthusiast"
-  ];
   const typewriterSpan = document.getElementById("typewriter");
-  let typeIndex = 0, charIndex = 0, isDeleting = false;
+  const phrases = ["Full Stack Developer", "ML Engineer", "Tech Enthusiast"];
+  let i = 0, j = 0, isDeleting = false;
 
   function type() {
     if (!typewriterSpan) return;
-    const current = typewriterPhrases[typeIndex];
-    const visibleText = current.substring(0, charIndex);
-    typewriterSpan.textContent = visibleText;
+
+    typewriterSpan.textContent = phrases[i].substring(0, j);
 
     if (!isDeleting) {
-      if (charIndex < current.length) {
-        charIndex++;
+      if (j < phrases[i].length) {
+        j++;
       } else {
         isDeleting = true;
         setTimeout(type, 1500); return;
       }
     } else {
-      if (charIndex > 0) {
-        charIndex--;
+      if (j > 0) {
+        j--;
       } else {
         isDeleting = false;
-        typeIndex = (typeIndex + 1) % typewriterPhrases.length;
+        i = (i + 1) % phrases.length;
       }
     }
+
     setTimeout(type, isDeleting ? 50 : 100);
   }
+
   type();
-
-  // === Back to Top ===
-  const backToTopBtn = document.getElementById("back-to-top");
-  window.addEventListener("scroll", throttle(() => {
-    if (window.scrollY > 300) {
-      backToTopBtn.classList.add("show");
-    } else {
-      backToTopBtn.classList.remove("show");
-    }
-  }, 100));
-
-  backToTopBtn?.addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
 });
